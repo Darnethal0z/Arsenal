@@ -1,0 +1,38 @@
+.TH "ARSENAL" "3" "<date>" "<version>" "The Arsenal library documentation"
+.SH NAME
+Stylized display features section \- The Arsenal library v<version>
+.SH COVERED IN THIS SECTION
+.SS Functions
+.nf
+char \fBstylized_printf\fP(const int \fIalignment\fP, const char * \fIcolor\fP, const char * \fIeffect\fP, bool \fIend_by_new_line\fP, char * \fIformat\fP, ...)
+.fi
+.sp
+.ce
+----
+.ce 0
+.sp
+.SH SYNOPSIS
+#include <arsenal.h>
+.sp
+char \fBstylized_printf\fP(const int \fIalignment\fP, const char * \fIcolor\fP, const char * \fIeffect\fP, bool \fIend_by_new_line\fP, char * \fIformat\fP, ...)
+.SH DESCRIPTION
+Based on \fBprintf(1)\fP, permits stylization of displayed content.
+.sp
+You can modify the text alignment (left, right or center) with \fIalignment\fP, specify the displayed text color with \fIcolor\fP and apply an effect to it with \fIeffect\fP. Colors and effects must be ANSI-compliant escape codes, you can provide you own or use some pre-defined contants explained in the next section.
+.SS Constants
+Alignment constants (for \fIalignment\fP) : \fBALIGN_LEFT\fP, \fBALIGN_CENTER\fP or \fBALIGN_RIGHT\fP.
+.sp
+Color constants (for \fIcolor\fP) : \fBCOLOR_NONE\fP, \fBCOLOR_RED\fP, \fBCOLOR_GREEN\fP, \fBCOLOR_YELLOW\fP, \fBCOLOR_BLUE\fP, \fBCOLOR_MAGENTA\fP, \fBCOLOR_CYAN\fP.
+.sp
+Effect constants (for \fIeffect\fP) : \fBEFFECT_NONE\fP, \fBEFFECT_BOLD\fP, \fBEFFECT_ITALIC\fP, \fBEFFECT_FAINT\fP, \fBEFFECT_UNDERLINE\fP, \fBEFFECT_SLOW_BLINK\fP, \fBEFFECT_FAST_BLINK\fP or \fBEFFECT_SWAP_COLORS\fP (swap background and foreground colors).
+.sp
+Only one constant can be used at a time.
+.sp
+.SS Format string
+Only the conversion specifiers \fBs\fP, \fBi\fP and \fBf\fP are supported by this function. For \fBf\fP, precision specification is not supported yet.
+.SH RETURN VALUE
+\fB0\fP if no error occured. On error \fB-1\fP will be returned and \fBerrno\fP will be set to indicate the error.
+.SH SEE ALSO
+\fBprintf(3)\fP, \fBsprintf(3)\fP
+.SH BUGS
+No known bugs.

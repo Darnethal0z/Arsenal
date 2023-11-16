@@ -1,0 +1,76 @@
+.TH "ARSENAL" "3" "<date>" "<version>" "The Arsenal library documentation"
+.SH NAME
+Arsenal presentation \- The Arsenal library v<version>
+.sp
+Arsenal is a C library to integrate into a project, providing a solution to recurrent tasks.
+.sp
+.ce
+----
+.ce 0
+.sp
+.SH LIBRARY USAGE NOTES
+.nr PI 2n
+.IP \[bu] 2
+It is recomended to make use of \fBerrno\fP to get more details about an error that occured, if needed.
+.IP \[bu] 2
+Every buffer memory and size used with the library should be properly defined and allocated before using them, otherwise some malfunctions can occur : A general rule is that never the functions of Arsenal will allocate memory in a buffer that needs further \fBfree(1)\fP call.
+.sp
+Function\-specific security notices will be described further in the relevant sections.
+.SH FUNCTIONALITIES REFERENCES
+.SS \fBStylized display\fP
+char \fBstylized_printf\fP(const int \fIalignment\fP, const char * \fIcolor\fP, const char * \fIeffect\fP, bool \fIend_by_new_line\fP, char * \fIformat\fP, ...)
+  ⤷ Based on \fBprintf(1)\fP, permits stylization of displayed content.
+.sp
+See \fBarsenal-display(3)\fP for full content.
+.SS \fBNetworking\fP
+char \fBclose_socket\fP(int \fIsocket_fd\fP)
+  ⤷ Close a previously opened socket descriptor.
+.sp
+char \fBconnect_server\fP(CLIENT_CONTEXT * \fIclient_context\fP)
+  ⤷ Establish a connection on a server.
+.sp
+char \fBinitialize_server_instance\fP(SERVER_CONTEXT * \fIserver_context\fP)
+  ⤷ Initialize a server instance.
+.sp
+char \fBaccept_client\fP(SERVER_CONTEXT \fIserver_context\fP, CLIENT_CONTEXT * \fIclient_context\fP)
+  ⤷ Accept a client connection.
+.sp
+char \fBssend_str\fP(int \fIsocket_fd\fP, char * \fIbuffer\fP, int \fIlen\fP)
+  ⤷ Send a string via a socket descriptor.
+.sp
+char \fBsrecv_str\fP(int \fIsocket_fd\fP, char * \fIbuffer\fP, int \fIlen\fP)
+  ⤷ Receive a string from a socket descriptor.
+.sp
+char \fBssend_int\fP(int \fIsocket_fd\fP, int \fIbuffer\fP)
+  ⤷ Send an integer via a socket descriptor.
+.sp
+char \fBsrecv_int\fP(int \fIsocket_fd\fP, int * \fIbuffer\fP)
+  ⤷ Receive an integer from a socket descriptor.
+.sp
+See \fBarsenal-networking(3)\fP for full content.
+.SS \fBRandom number / string\fP
+void \fBgenerate_random_string\fP(const char * \fIcharset\fP, char * \fIbuffer\fP, int \fIlen\fP)
+  ⤷ Generate a string based on random characters.
+.sp
+See \fBarsenal-random(3)\fP for full content.
+.SS \fBString manipulation\fP
+.sp
+void \fBconcatenate_strings\fP(int \fIn\fP, char * \fIbuffer\fP, ...)
+  ⤷ Concatenate multiple strings in a single buffer.
+.sp
+void \fBsplit_string\fP(char * \fIstring\fP, char * \fIbuffer\fP, char \fIseparator\fP, int \fIoccurence_index\fP)
+  ⤷ Split a string according to a separator.
+.sp
+See \fBarsenal-string(3)\fP for full content.
+.SS \fBUser input\fP
+.sp
+void \fBsinput_str\fP(const char * \fIprompt\fP, char * \fIbuffer\fP, int \fIlen\fP)
+  ⤷ Read a string from user input.
+.sp
+char \fBsinput_int\fP(const char * \fIprompt\fP, int * \fIbuffer\fP, int \fIlen\fP)
+  ⤷ Read an integer from user input.
+.sp
+char \fBsinput_float\fP(const char * \fIprompt\fP, float * \fIbuffer\fP, int \fIlen\fP)
+  ⤷ Read a float number from user input.
+.sp
+See \fBarsenal-user-input(3)\fP for full content.

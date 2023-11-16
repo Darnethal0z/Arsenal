@@ -1,0 +1,31 @@
+.TH "ARSENAL" "3" "<date>" "<version>" "The Arsenal library documentation"
+.SH NAME
+Random string feature section \- The Arsenal library v<version>
+.SH COVERED IN THIS SECTION
+.SS Functions
+.nf
+void \fBgenerate_random_string\fP(const char * \fIcharset\fP, char * \fIbuffer\fP, int \fIlen\fP)
+.fi
+.sp
+.ce
+----
+.ce 0
+.sp
+.SH SYNOPSIS
+#include <arsenal.h>
+.sp
+void \fBgenerate_random_string\fP(const char * \fIcharset\fP, char * \fIbuffer\fP, int \fIlen\fP)
+.SH DESCRIPTION
+Generate a string based on random characters.
+.sp
+Uses the \fBgenerate_random_number()\fP function to provide secure and uniform character selection from the charset specified with \fIcharset\fP. \fIbuffer\fP is the buffer that will contain the generated random string, and \fIlen\fP the length of this string (\fBnull byte included\fP).
+.sp
+With \fIcharset\fP you can use the URL-safe, pre-defined \fBRANDOM_STRING_DEFAULT_CHARSET\fP charset. Or use your own if needed.
+.SH RETURN VALUE
+\fB0\fP if no error occured. On error \fB-1\fP will be returned and \fBerrno\fP will be set to indicate the error.
+.SH SECURITY NOTICE
+A null byte will be automatically added at the end of \fBbuffer\fP, according to \fBlen\fP. Do not forget to allocate appropriate memory before usage.
+.SH SEE ALSO
+\fBrand(3)\fI
+.SH BUGS
+No known bugs.

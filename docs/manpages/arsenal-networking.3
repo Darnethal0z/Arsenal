@@ -1,0 +1,241 @@
+.TH "ARSENAL" "3" "<date>" "<version>" "The Arsenal library documentation"
+.SH NAME
+Networking features section \- The Arsenal library v<version>
+.SH COVERED IN THIS SECTION
+.SS Structure type definition
+.nf
+SERVER_CONTEXT
+CLIENT_CONTEXT
+.fi
+.SS Functions
+.nf
+char \fBclose_socket\fP(int \fIsocket_fd\fP)
+char \fBconnect_server\fP(CLIENT_CONTEXT * \fIclient_context\fP)
+char \fBinitialize_server_instance\fP(SERVER_CONTEXT * \fIserver_context\fP)
+char \fBaccept_client\fP(SERVER_CONTEXT \fIserver_context\fP, CLIENT_CONTEXT * \fIclient_context\fP)
+char \fBssend_str\fP(int \fIsocket_fd\fP, char * \fIbuffer\fP, int \fIlen\fP)
+char \fBsrecv_str\fP(int \fIsocket_fd\fP, char * \fIbuffer\fP, int \fIlen\fP)
+char \fBssend_int\fP(int \fIsocket_fd\fP, int \fIbuffer\fP)
+char \fBsrecv_int\fP(int \fIsocket_fd\fP, int * \fIbuffer\fP)
+.fi
+.sp
+.ce
+----
+.ce 0
+.sp
+.SH STRUCTURE TYPE DEFINITIONS
+.SS SERVER_CONTEXT - Represents a server instance context.
+This structure contains every server listen informations needed in order to provide clients with socket connectivity.
+.sp
+.nf
+typedef struct {
+	int \fIs_sock\fP;
+	struct sockaddr_in \fIs_in\fP;
+	int \fIs_backlog\fP;
+	int \fIs_lport\fP;
+}
+.fi
+.sp
+.IP \fIs_sock\fP\h'0.4i'
+The server socket descriptor.
+.sp
+.IP \fIs_in\fP\h'0.4i'
+The server socket address structure.
+.sp
+.IP \fIs_backlog\fP\h'0.4i'
+The server listen backlog.
+.sp
+.IP \fIs_lport\fP\h'0.4i'
+The server listen port.
+.SS CLIENT_CONTEXT - Represents a client instance context.
+This structure represents a client instance, including the remote server connection coordinates and communications informations.
+.sp
+.nf
+typedef struct {
+	int \fIc_sock\fP;
+	struct sockaddr_in \fIc_in\fP;
+	int \fIr_port\fP;
+	char \fIr_address[16]\fP;
+}
+.fi
+.sp
+.IP \fIc_sock\fP\h'0.4i'
+The client socket descriptor.
+.sp
+.IP \fIc_in\fP\h'0.4i'
+The client socket address structure.
+.sp
+.IP \fIr_port\fP\h'0.4i'
+The remote server listen port.
+.sp
+.IP \fIr_address\fP\h'0.4i'
+The remote server IP address (IPv4 format).
+.sp
+.ce
+----
+.sp
+.ce 0
+.sp
+.SH SYNOPSIS
+#include <arsenal.h>
+.sp
+char \fBclose_socket\fP(int \fIsocket_fd\fP)
+.SH DESCRIPTION
+Close a previously opened socket descriptor specified with \fIsocket_fd\fP.
+.sp
+What differs from the \fBclose(2)\fP function is that \fBshutdown(2)\fP is called before \fBclose(2)\fP itself in order to shutdown communications before closure.
+.sp
+As mentionned in \fBclose(2)\fP manual page, it is preferable to check the value of \fBerrno\fP after the function call, since the function itself ignore the value of the \fBclose(2)\fP call and that errors on a previous \fBwrite(2)\fP operation are reported only on the final \fBclose(2)\fP that releases the open file description.
+.SH RETURN VALUE
+\fB0\fP if no error occured. On error \fB-1\fP will be returned and \fBerrno\fP will be set to indicate the error.
+.SH SEE ALSO
+\fBclose(2)\fP, \fBshutdown(2)\fP
+.SH BUGS
+No known bugs.
+.sp
+.ce
+----
+.ce 0
+.sp
+.SH SYNOPSIS
+#include <arsenal.h>
+.sp
+char \fBinitialize_server_instance\fP(SERVER_CONTEXT * \fIserver_context\fP)
+.SH DESCRIPTION
+Initialize a server instance by creating an IPv4 TCP server socket, bind it to the listen port specified in \fIserver_context\fP \fIlisten_port\fP member and put it on listen mode. To accept clients connections, see \fBaccept_client()\fP below.
+.sp
+When created, the server socket (\fIserver_context\fP \fIs_sock\fP member) have the \fBSO_REUSEADDR\fP parameters set on the \fBSOL_SOCKET\fP level to avoid potential socket closure problems for the port specified in \fIserver_context\fP \fIlisten_port\fP.
+.SS Needed values in \fIserver_context\fP
+\fIserver_context\fP needs to have two members set before calling the function : 
+.IP \fIs_backlog\fP\h'0.4i'
+The server listen backlog. Usually 5 for a normal usage.
+.IP \fIlisten_port\fP\h'0.4i'
+The server listen port.
+.LP
+.sp
+If you need more informations about the SERVER_CONTEXT structure type, see the structure type definitions section upper.
+.SH RETURN VALUE
+\fB0\fP if no error occured. On error \fB-1\fP will be returned and \fBerrno\fP will be set to indicate the error.
+.SH SEE ALSO
+\fBsocket(2)\fP, \fBsetsockopt(2)\fP, \fBbind(2)\fP, \fBlisten(2)\fP
+.SH BUGS
+No known bugs.
+.sp
+.ce
+----
+.ce 0
+.sp
+.SH SYNOPSIS
+#include <arsenal.h>
+.sp
+char \fBaccept_client\fP(SERVER_CONTEXT \fIserver_context\fP, CLIENT_CONTEXT * \fIclient_context\fP)
+.SH DESCRIPTION
+Accept a client connection.
+.sp
+\fIserver_context\fP must contain initialized server context informations, done with \fBinitialize_server_instance()\fP before the function call. \fIclient_context\fP is a pointer pointing to the destination client context structure.
+.SH RETURN VALUE
+\fB0\fP if no error occured. On error \fB-1\fP will be returned and \fBerrno\fP will be set to indicate the error.
+.SH NOTE
+After the function call, the \fIclient_context\fP \fIr_port\fP and the \fIr_address\fP members will not be set, thus making them useless.
+.SH SEE ALSO
+\fBaccept(2)\fP
+.SH BUGS
+No known bugs.
+.sp
+.ce
+----
+.ce 0
+.sp
+.SH SYNOPSIS
+#include <arsenal.h>
+.sp
+char \fBconnect_server\fP(CLIENT_CONTEXT * \fIclient_context\fP)
+.SH DESCRIPTION
+Establish a connection on a server, \fIclient_context\fP being a pointer pointing to the destination client context structure.
+.SS Needed values in \fIserver_context\fP
+\fIclient_context\fP needs to have two members set before calling the function : 
+.IP \fIr_address\fP\h'0.4i'
+The remote server IP.
+.IP \fIr_port\fP\h'0.4i'
+The remote server listen port.
+.LP
+.sp
+If you need more informations about the CLIENT_CONTEXT structure type, see the structure type definitions section upper.
+.SH RETURN VALUE
+\fB0\fP if no error occured. On error \fB-1\fP will be returned and \fBerrno\fP will be set to indicate the error.
+.SH SEE ALSO
+\fBconnect(2)\fP
+.SH BUGS
+No known bugs.
+.sp
+.ce
+----
+.ce 0
+.sp
+.SH SYNOPSIS
+#include <arsenal.h>
+.sp
+char \fBssend_str\fP(int \fIsocket_fd\fP, char * \fIbuffer\fP, int \fIlen\fP);
+.SH DESCRIPTION
+Send the string specified with \fIbuffer\fP on the socket descriptor specified with \fIsocket_fd\fP.  \fIlen\fP is the length of the string specified with \fIbuffer\fP (\fBnull byte included\fP).
+.SH RETURN VALUE
+\fB0\fP if no error occured. On error \fB-1\fP will be returned and \fBerrno\fP will be set to indicate the error.
+.SH SECURITY NOTICE
+A null byte will be automatically added at the end of \fBbuffer\fP, according to \fBlen\fP. Do not forget to allocate appropriate memory before usage.
+.SH SEE ALSO
+\fBsend(2)\fP
+.SH BUGS
+No known bugs.
+.sp
+.ce
+----
+.ce 0
+.sp
+.SH SYNOPSIS
+#include <arsenal.h>
+.sp
+char \fBsrecv_str\fP(int \fIsocket_fd\fP, char * \fIbuffer\fP, int \fIlen\fP);
+.SH DESCRIPTION
+Receive a string from the socket descriptor specified with \fIsocket_fd\fP. \fIbuffer\fP is the buffer that will contain the received string, and \fIlen\fP the length of the string to receive (\fBnull byte included\fP).
+.SH RETURN VALUE
+\fB0\fP if no error occured. On error \fB-1\fP will be returned and \fBerrno\fP will be set to indicate the error.
+.SH SECURITY NOTICE
+A null byte will be automatically added at the end of \fBbuffer\fP, according to \fBlen\fP. Do not forget to allocate appropriate memory before usage.
+.SH SEE ALSO
+\fBrecv(3)\fP
+.SH BUGS
+No known bugs.
+.sp
+.ce
+----
+.ce 0
+.sp
+.SH SYNOPSIS
+#include <arsenal.h>
+.sp
+char \fBssend_int\fP(int \fIsocket_fd\fP, int \fIbuffer\fP);
+.SH DESCRIPTION
+Send the integer specified with \fIbuffer\fP on the socket descriptor specified with \fIsocket_fd\fP.
+.SH RETURN VALUE
+\fB0\fP if no error occured. On error \fB-1\fP will be returned and \fBerrno\fP will be set to indicate the error.
+.SH SEE ALSO
+\fBsend(2), htonl(3)\fP
+.SH BUGS
+No known bugs.
+.sp
+.ce
+----
+.ce 0
+.sp
+.SH SYNOPSIS
+#include <arsenal.h>
+.sp
+char \fBsrecv_int\fP(int \fIsocket_fd\fP, int * \fIbuffer\fP)
+.SH DESCRIPTION
+Receive an integer from the socket descriptor specified with \fIsocket_fd\fP. \fIbuffer\fP is the buffer that will contain the received integer.
+.SH RETURN VALUE
+\fB0\fP if no error occured. On error \fB-1\fP will be returned and \fBerrno\fP will be set to indicate the error.
+.SH SEE ALSO
+\fBrecv(2), ntohl(3)\fP
+.SH BUGS
+No known bugs.

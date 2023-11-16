@@ -1,0 +1,82 @@
+.TH "ARSENAL" "3" "<date>" "<version>" "The Arsenal library documentation"
+.SH NAME
+String manipulation features section \- The Arsenal library v<version>
+.SH COVERED IN THIS SECTION
+.SS Functions
+.nf
+void \fBconcatenate_strings\fP(int \fIn\fP, char * \fIbuffer\fP, ...)
+void \fBsplit_string\fP(char * \fIstring\fP, char * \fIbuffer\fP, char \fIseparator\fP, int \fIoccurence_index\fP)
+.fi
+.sp
+.ce
+----
+.ce 0
+.sp
+.SH SYNOPSIS
+#include <arsenal.h>
+.sp
+void \fBconcatenate_strings\fP(int \fIn\fP, char * \fIbuffer\fP, ...)
+.SH DESCRIPTION
+Concatenate multiple strings in a single buffer. \fIn\fP is the amount of parameters passed in variadic arguments, and every \fBchar *\fP variables specified in variadic arguments will be concatenated inside \fIbuffer\fP.
+.SH SECURITY NOTICE
+A null byte will be automatically added at the end of `buffer`, according to the amount of characters present in the final string. Do not forget to allocate appropriate memory before usage.
+.sp
+Also note that only \fBchar *\fP variables are expected in variadic arguments.
+.SH SEE ALSO
+\fBstrcat(3)\fP
+.SH BUGS
+No known bugs.
+.sp
+.ce
+----
+.ce 0
+.sp
+.SH SYNOPSIS
+#include <arsenal.h>
+.sp
+void \fBsplit_string\fP(char * \fIstring\fP, char * \fIbuffer\fP, char \fIseparator\fP, int \fIoccurence_index\fP)
+.SH DESCRIPTION
+Split the string specified with \fIstring\fP according to a separator character specified with \fIseparator\fP.
+.sp
+This function is based on a tokenization system : The principle is that the separator character splits the string in \fBx\fP parts, and each of those parts must be extracted independantly within a loop iterating \fBx\fP times. In this manner, you can access the parts of the splitted string with an array-like index, specified in this function with \fIoccurence_index\fP. The \fIoccurence_index\fP corresponding splitted strng part will be stored in \fIbuffer\fP.
+.sp
+Here is an example explaining how to use the function :
+.sp
+.nf
+	char string[] = "Here we are in the Arsenal documentation";
+	char buffer[14];
+
+	for ( int i = 0; i < 7; i++ ){
+		split_string(string, buffer, ' ', i);
+		printf("Occurence no %i : %s\\n", i + 1, buffer);
+	}
+.fi
+.sp
+If you want to programatically get the amount of splitted parts in a string, you can use a function such as : 
+.sp
+.nf
+	int get_splitted_parts_amount(char * string, char character){
+		int result = 0;
+		
+		for (int i = 0; string[i] != '\\0'; i++){
+			if(string[i] == character)
+				result++;
+		}
+
+		return ++result;
+	}
+.fi
+.sp
+And implement it in the loop declaration : 
+.sp
+.nf
+	for ( int i = 0; i < get_splitted_parts_amount(string, ' '); i++ ){
+		// ...
+	}
+.fi
+.SH SECURITY NOTICE
+A null byte will be automatically added at the end of `buffer`, according to the amount of characters in the relevant splitted part. Do not forget to allocate appropriate memory before usage.
+.SH SEE ALSO
+\fBstrtok(3)\fP
+.SH BUGS
+No known bugs.

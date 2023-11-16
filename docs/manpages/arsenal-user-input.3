@@ -1,0 +1,63 @@
+.TH "ARSENAL" "3" "<date>" "<version>" "The Arsenal library documentation"
+.SH NAME
+User input features section \- The Arsenal library v<version>
+.SH COVERED IN THIS SECTION
+.SS Functions
+.nf
+void \fBsinput_str\fP(const char * \fIprompt\fP, char * \fIbuffer\fP, int \fIlen\fP)
+char \fBsinput_int\fP(const char * \fIprompt\fP, int * \fIbuffer\fP, int \fIlen\fP)
+char \fBsinput_float\fP(const char * \fIprompt\fP, float * \fIbuffer\fP, int \fIlen\fP)
+.fi
+.sp
+.ce
+----
+.ce 0
+.sp
+.SH SYNOPSIS
+#include <arsenal.h>
+.sp
+void \fBsinput_str\fP(const char * \fIprompt\fP, char * \fIbuffer\fP, int \fIlen\fP)
+.SH DESCRIPTION
+Read a string from user input. The content of \fIprompt\fP will be displayed before reading the user input, \fIbuffer\fP will contain the read string and \fIlen\fP is the maximum amount of characters to read, \fBnull byte included\fP.
+.sp
+Note that the function will stop reading if a line break character ('\\n') have been read.
+.SH SECURITY NOTICE
+A null byte will be automatically added at the end of \fBbuffer\fP if \fIlen\fP characters or a line break character ('\\n') have been read. Do not forget to allocate appropriate memory before usage.
+.SH SEE ALSO
+\fBscanf(3)\fP
+.SH BUGS
+No known bugs.
+.sp
+.ce
+----
+.ce 0
+.sp
+.SH SYNOPSIS
+#include <arsenal.h>
+.sp
+char \fBsinput_int\fP(const char * \fIprompt\fP, int * \fIbuffer\fP, int \fIlen\fP)
+.SH DESCRIPTION
+Read an integer from user input. This function is the same as the \fBsinput_str()\fP function, except that the read string will be converted to an integer with \fBstrtod(3)\fP, and assigned to \fIbuffer\fP. \fIlen\fP indicates the maximum digits that the read integer can have.
+.SH RETURN VALUE
+\fB0\fP if no error occured. On error \fB-1\fP will be returned and \fBerrno\fP will be set to indicate the error.
+.SH SEE ALSO
+\fBscanf(3)\fP
+.SH BUGS
+No known bugs.
+.sp
+.ce
+----
+.ce 0
+.sp
+.SH SYNOPSIS
+#include <arsenal.h>
+.sp
+char \fBsinput_float\fP(const char * \fIprompt\fP, float * \fIbuffer\fP, int \fIlen\fP)
+.SH DESCRIPTION
+Read a floating point number from user input. This function is the same as the \fBsinput_str()\fP function, except that the read string will be converted to a floating point number with \fBstrtof(3)\fP, and assigned to \fIbuffer\fP. \fIlen\fP indicates the maximum digits that the read floating point number can have, \fBmantissa included\fP.
+.SH RETURN VALUE
+\fB0\fP if no error occured. On error \fB-1\fP will be returned and \fBerrno\fP will be set to indicate the error.
+.SH SEE ALSO
+\fBscanf(3)\fP
+.SH BUGS
+No known bugs.
