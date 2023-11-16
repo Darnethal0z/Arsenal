@@ -42,7 +42,7 @@ Include the `arsenal.h` header in your code, and compile it by linking the `liba
 For example, with `gcc` : 
 
 ```
-$ gcc *.c -o out -larsenal
+$ gcc main.c -o out -larsenal
 ```
 
 ## Documentation
