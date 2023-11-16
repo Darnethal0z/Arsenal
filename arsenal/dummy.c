@@ -10,32 +10,8 @@
  */
 
 #include <stdio.h>
-#include <string.h>
-
-#include "arsenal.h"
-
-int count_character_occurences(char * string, char character){
-    int result = 0;
-    
-    for (int i = 0; string[i] != '\0'; i++){
-        if(string[i] == character)
-            result++;
-    }
-
-    return ++result;
-}
 
 // Test purposes only
 int main(int argc, char * argv[]){
-    char string[] = "Here we are in the Arsenal documentation";
-    char buffer[14];
-
-    printf("%i\n", count_character_occurences(string, ' '));
-
-    for ( int i = 0; i < 7; i++ ){
-        split_string(string, buffer, ' ', i);
-        printf("Occurence no %i : %s\n", i + 1, buffer);
-    }
-
     return 0;
 }
