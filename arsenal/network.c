@@ -21,7 +21,7 @@
 
 // Socket management functions
 
-char close_socket(int socket_fd){
+int close_socket(int socket_fd){
     if (shutdown(socket_fd, 2) == -1)
         return -1;
 
@@ -31,7 +31,7 @@ char close_socket(int socket_fd){
     return 0;
 }
 
-char initialize_server_instance(SERVER_CONTEXT * server_context){
+int initialize_server_instance(SERVER_CONTEXT * server_context){
     int opt = 1;
 
     server_context->s_sock = socket(AF_INET, SOCK_STREAM, 0);
@@ -70,7 +70,7 @@ char initialize_server_instance(SERVER_CONTEXT * server_context){
     return 0;
 }
 
-char accept_client(SERVER_CONTEXT server_context, CLIENT_CONTEXT * client_context){
+int accept_client(SERVER_CONTEXT server_context, CLIENT_CONTEXT * client_context){
     int c_in_len = sizeof(client_context->c_in);
 
     client_context->c_sock = accept(
@@ -84,7 +84,7 @@ char accept_client(SERVER_CONTEXT server_context, CLIENT_CONTEXT * client_contex
     return 0;
 }
 
-char connect_server(CLIENT_CONTEXT * client_context){
+int connect_server(CLIENT_CONTEXT * client_context){
     client_context->c_sock = socket(AF_INET, SOCK_STREAM, 0);
 
     if (!client_context->c_sock)
@@ -116,7 +116,7 @@ char connect_server(CLIENT_CONTEXT * client_context){
 
 // Data transmission functions
 
-char ssend_str(int socket_fd, char * buffer, int len){
+int ssend_str(int socket_fd, char * buffer, int len){
     buffer[len - 1] = '\0';
 
     if (send(socket_fd, buffer, len * sizeof(char), 0) == -1)
@@ -125,7 +125,7 @@ char ssend_str(int socket_fd, char * buffer, int len){
     return 0;
 }
 
-char srecv_str(int socket_fd, char * buffer, int len){
+int srecv_str(int socket_fd, char * buffer, int len){
     if (recv(socket_fd, buffer, (len * sizeof(char)), 0) == -1)
         return -1;
 
@@ -134,7 +134,7 @@ char srecv_str(int socket_fd, char * buffer, int len){
     return 0;
 }
 
-char ssend_int(int socket_fd, int buffer){
+int ssend_int(int socket_fd, int buffer){
     buffer = htonl(buffer);
 
     if (send(socket_fd, (const char*) &buffer, sizeof(buffer), 0) == -1)
@@ -143,7 +143,7 @@ char ssend_int(int socket_fd, int buffer){
     return 0;
 }
 
-char srecv_int(int socket_fd, int * buffer){
+int srecv_int(int socket_fd, int * buffer){
     int recv_buffer = 0;
 
     if (recv(socket_fd, (char *) &recv_buffer, sizeof(recv_buffer), 0) == -1)

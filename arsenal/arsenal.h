@@ -68,7 +68,7 @@ typedef struct {
 unsigned int _count_int_digits(int value);
 int _get_formatted_str_length(char * format, ...);
 
-extern char stylized_printf(
+extern int stylized_printf(
     const int alignment, 
     const char * color, 
     const char * effect, 
@@ -82,20 +82,20 @@ extern void split_string(char * string, char * buffer, char separator, int ocure
 
 // user_input.c
 extern void sinput_str(const char * prompt, char * buffer, int len);
-extern char sinput_int(const char * prompt, int * buffer, int len);
-extern char sinput_float(const char * prompt, float * buffer, int len);
+extern int sinput_int(const char * prompt, int * buffer, int len);
+extern int sinput_float(const char * prompt, float * buffer, int len);
 
 // network.c
-extern char close_socket(int socket_fd);
-extern char connect_server(CLIENT_CONTEXT * c_interface);
-extern char initialize_server_instance(SERVER_CONTEXT * s_interface);
-extern char accept_client(SERVER_CONTEXT s_interface, CLIENT_CONTEXT * c_interface);
-extern char ssend_str(int socket_fd, char * buffer, int len);
-extern char srecv_str(int socket_fd, char * buffer, int len);
-extern char ssend_int(int socket_fd, int buffer);
-extern char srecv_int(int socket_fd, int * buffer);
+extern int close_socket(int socket_fd);
+extern int connect_server(CLIENT_CONTEXT * c_interface);
+extern int initialize_server_instance(SERVER_CONTEXT * s_interface);
+extern int accept_client(SERVER_CONTEXT s_interface, CLIENT_CONTEXT * c_interface);
+extern int ssend_str(int socket_fd, char * buffer, int len);
+extern int srecv_str(int socket_fd, char * buffer, int len);
+extern int ssend_int(int socket_fd, int buffer);
+extern int srecv_int(int socket_fd, int * buffer);
 
 // random.c
-extern char generate_random_string(const char * charset, char * buffer, int len);
+extern int generate_random_string(const char * charset, char * buffer, int len);
 
 #endif // _ARSENAL_ONCE

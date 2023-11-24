@@ -37,7 +37,7 @@
 //     return 0;
 // }
 
-char generate_random_string(const char * charset, char * buffer, int len){
+int generate_random_string(const char * charset, char * buffer, int len){
     unsigned int generated_random = 0;
     int charset_length = strlen(charset) - 1;
 

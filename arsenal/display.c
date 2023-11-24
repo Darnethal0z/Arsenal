@@ -87,7 +87,7 @@ int _get_formatted_str_length(char * format, ...){
     return final_format_length;
 }
 
-char stylized_printf(
+int stylized_printf(
     const int alignment, 
     const char * color, 
     const char * effect, 

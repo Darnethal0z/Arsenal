@@ -37,7 +37,7 @@ void sinput_str(const char * prompt, char * buffer, int len){
     }   
 }
 
-char sinput_int(const char * prompt, int * buffer, int len){
+int sinput_int(const char * prompt, int * buffer, int len){
     char * end_pointer;
     char read_buffer[len];
     int converted_read_buffer = 0;
@@ -55,7 +55,7 @@ char sinput_int(const char * prompt, int * buffer, int len){
     return 0;
 }
 
-char sinput_float(const char * prompt, float * buffer, int len){
+int sinput_float(const char * prompt, float * buffer, int len){
     char * end_pointer;
     char read_buffer[len];
     float converted_read_buffer = 0;
