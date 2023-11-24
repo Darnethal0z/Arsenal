@@ -9,14 +9,14 @@ CLIENT_CONTEXT
 .fi
 .SS Functions
 .nf
-char \fBclose_socket\fP(int \fIsocket_fd\fP)
-char \fBconnect_server\fP(CLIENT_CONTEXT * \fIclient_context\fP)
-char \fBinitialize_server_instance\fP(SERVER_CONTEXT * \fIserver_context\fP)
-char \fBaccept_client\fP(SERVER_CONTEXT \fIserver_context\fP, CLIENT_CONTEXT * \fIclient_context\fP)
-char \fBssend_str\fP(int \fIsocket_fd\fP, char * \fIbuffer\fP, int \fIlen\fP)
-char \fBsrecv_str\fP(int \fIsocket_fd\fP, char * \fIbuffer\fP, int \fIlen\fP)
-char \fBssend_int\fP(int \fIsocket_fd\fP, int \fIbuffer\fP)
-char \fBsrecv_int\fP(int \fIsocket_fd\fP, int * \fIbuffer\fP)
+int \fBclose_socket\fP(int \fIsocket_fd\fP)
+int \fBconnect_server\fP(CLIENT_CONTEXT * \fIclient_context\fP)
+int \fBinitialize_server_instance\fP(SERVER_CONTEXT * \fIserver_context\fP)
+int \fBaccept_client\fP(SERVER_CONTEXT \fIserver_context\fP, CLIENT_CONTEXT * \fIclient_context\fP)
+int \fBssend_str\fP(int \fIsocket_fd\fP, char * \fIbuffer\fP, int \fIlen\fP)
+int \fBsrecv_str\fP(int \fIsocket_fd\fP, char * \fIbuffer\fP, int \fIlen\fP)
+int \fBssend_int\fP(int \fIsocket_fd\fP, int \fIbuffer\fP)
+int \fBsrecv_int\fP(int \fIsocket_fd\fP, int * \fIbuffer\fP)
 .fi
 .sp
 .ce
@@ -79,7 +79,7 @@ The remote server IP address (IPv4 format).
 .SH SYNOPSIS
 #include <arsenal.h>
 .sp
-char \fBclose_socket\fP(int \fIsocket_fd\fP)
+int \fBclose_socket\fP(int \fIsocket_fd\fP)
 .SH DESCRIPTION
 Close a previously opened socket descriptor specified with \fIsocket_fd\fP.
 .sp
@@ -100,7 +100,7 @@ No known bugs.
 .SH SYNOPSIS
 #include <arsenal.h>
 .sp
-char \fBinitialize_server_instance\fP(SERVER_CONTEXT * \fIserver_context\fP)
+int \fBinitialize_server_instance\fP(SERVER_CONTEXT * \fIserver_context\fP)
 .SH DESCRIPTION
 Initialize a server instance by creating an IPv4 TCP server socket, bind it to the listen port specified in \fIserver_context\fP \fIlisten_port\fP member and put it on listen mode. To accept clients connections, see \fBaccept_client()\fP below.
 .sp
@@ -128,7 +128,7 @@ No known bugs.
 .SH SYNOPSIS
 #include <arsenal.h>
 .sp
-char \fBaccept_client\fP(SERVER_CONTEXT \fIserver_context\fP, CLIENT_CONTEXT * \fIclient_context\fP)
+int \fBaccept_client\fP(SERVER_CONTEXT \fIserver_context\fP, CLIENT_CONTEXT * \fIclient_context\fP)
 .SH DESCRIPTION
 Accept a client connection.
 .sp
@@ -149,7 +149,7 @@ No known bugs.
 .SH SYNOPSIS
 #include <arsenal.h>
 .sp
-char \fBconnect_server\fP(CLIENT_CONTEXT * \fIclient_context\fP)
+int \fBconnect_server\fP(CLIENT_CONTEXT * \fIclient_context\fP)
 .SH DESCRIPTION
 Establish a connection on a server, \fIclient_context\fP being a pointer pointing to the destination client context structure.
 .SS Needed values in \fIserver_context\fP
@@ -175,7 +175,7 @@ No known bugs.
 .SH SYNOPSIS
 #include <arsenal.h>
 .sp
-char \fBssend_str\fP(int \fIsocket_fd\fP, char * \fIbuffer\fP, int \fIlen\fP);
+int \fBssend_str\fP(int \fIsocket_fd\fP, char * \fIbuffer\fP, int \fIlen\fP);
 .SH DESCRIPTION
 Send the string specified with \fIbuffer\fP on the socket descriptor specified with \fIsocket_fd\fP.  \fIlen\fP is the length of the string specified with \fIbuffer\fP (\fBnull byte included\fP).
 .SH RETURN VALUE
@@ -194,7 +194,7 @@ No known bugs.
 .SH SYNOPSIS
 #include <arsenal.h>
 .sp
-char \fBsrecv_str\fP(int \fIsocket_fd\fP, char * \fIbuffer\fP, int \fIlen\fP);
+int \fBsrecv_str\fP(int \fIsocket_fd\fP, char * \fIbuffer\fP, int \fIlen\fP);
 .SH DESCRIPTION
 Receive a string from the socket descriptor specified with \fIsocket_fd\fP. \fIbuffer\fP is the buffer that will contain the received string, and \fIlen\fP the length of the string to receive (\fBnull byte included\fP).
 .SH RETURN VALUE
@@ -213,7 +213,7 @@ No known bugs.
 .SH SYNOPSIS
 #include <arsenal.h>
 .sp
-char \fBssend_int\fP(int \fIsocket_fd\fP, int \fIbuffer\fP);
+int \fBssend_int\fP(int \fIsocket_fd\fP, int \fIbuffer\fP);
 .SH DESCRIPTION
 Send the integer specified with \fIbuffer\fP on the socket descriptor specified with \fIsocket_fd\fP.
 .SH RETURN VALUE
@@ -230,7 +230,7 @@ No known bugs.
 .SH SYNOPSIS
 #include <arsenal.h>
 .sp
-char \fBsrecv_int\fP(int \fIsocket_fd\fP, int * \fIbuffer\fP)
+int \fBsrecv_int\fP(int \fIsocket_fd\fP, int * \fIbuffer\fP)
 .SH DESCRIPTION
 Receive an integer from the socket descriptor specified with \fIsocket_fd\fP. \fIbuffer\fP is the buffer that will contain the received integer.
 .SH RETURN VALUE

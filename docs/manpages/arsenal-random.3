@@ -4,7 +4,7 @@ Random string feature section \- The Arsenal library v<version>
 .SH COVERED IN THIS SECTION
 .SS Functions
 .nf
-void \fBgenerate_random_string\fP(const char * \fIcharset\fP, char * \fIbuffer\fP, int \fIlen\fP)
+int \fBgenerate_random_string\fP(const char * \fIcharset\fP, char * \fIbuffer\fP, int \fIlen\fP)
 .fi
 .sp
 .ce
@@ -14,7 +14,7 @@ void \fBgenerate_random_string\fP(const char * \fIcharset\fP, char * \fIbuffer\f
 .SH SYNOPSIS
 #include <arsenal.h>
 .sp
-void \fBgenerate_random_string\fP(const char * \fIcharset\fP, char * \fIbuffer\fP, int \fIlen\fP)
+int \fBgenerate_random_string\fP(const char * \fIcharset\fP, char * \fIbuffer\fP, int \fIlen\fP)
 .SH DESCRIPTION
 Generate a string based on random characters.
 .sp

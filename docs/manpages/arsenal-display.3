@@ -4,7 +4,7 @@ Stylized display features section \- The Arsenal library v<version>
 .SH COVERED IN THIS SECTION
 .SS Functions
 .nf
-char \fBstylized_printf\fP(const int \fIalignment\fP, const char * \fIcolor\fP, const char * \fIeffect\fP, bool \fIend_by_new_line\fP, char * \fIformat\fP, ...)
+int \fBstylized_printf\fP(const int \fIalignment\fP, const char * \fIcolor\fP, const char * \fIeffect\fP, bool \fIend_by_new_line\fP, char * \fIformat\fP, ...)
 .fi
 .sp
 .ce
@@ -14,7 +14,7 @@ char \fBstylized_printf\fP(const int \fIalignment\fP, const char * \fIcolor\fP, 
 .SH SYNOPSIS
 #include <arsenal.h>
 .sp
-char \fBstylized_printf\fP(const int \fIalignment\fP, const char * \fIcolor\fP, const char * \fIeffect\fP, bool \fIend_by_new_line\fP, char * \fIformat\fP, ...)
+int \fBstylized_printf\fP(const int \fIalignment\fP, const char * \fIcolor\fP, const char * \fIeffect\fP, bool \fIend_by_new_line\fP, char * \fIformat\fP, ...)
 .SH DESCRIPTION
 Based on \fBprintf(1)\fP, permits stylization of displayed content.
 .sp
