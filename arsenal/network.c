@@ -31,83 +31,83 @@ int close_socket(int socket_fd){
     return 0;
 }
 
-int initialize_server_instance(SERVER_CONTEXT * server_context){
+int initialize_server_instance(SERVER_CONTEXT * server_context, int listen_port){
     int opt = 1;
 
-    server_context->s_sock = socket(AF_INET, SOCK_STREAM, 0);
+    server_context->socket = socket(AF_INET, SOCK_STREAM, 0);
 
-    if (!server_context->s_sock)
+    if (!server_context->socket)
         return -1;
 
     if (setsockopt(
-        server_context->s_sock, 
+        server_context->socket, 
         SOL_SOCKET, 
         SO_REUSEADDR, 
         &opt, sizeof(opt)) == -1){
-        
-        close_socket(server_context->s_sock);
+
+        close_socket(server_context->socket);
         return -1;
     }
 
-    server_context->s_in.sin_addr.s_addr = INADDR_ANY;
-    server_context->s_in.sin_family = AF_INET;
-    server_context->s_in.sin_port = htons(server_context->s_lport);
+    server_context->in.sin_addr.s_addr = INADDR_ANY;
+    server_context->in.sin_family = AF_INET;
+    server_context->in.sin_port = htons(listen_port);
 
     if (bind(
-        server_context->s_sock, 
-        (struct sockaddr *) &server_context->s_in, 
-        sizeof(server_context->s_in)) == -1){
-        
-        close_socket(server_context->s_sock);
-        return -1;
-    }
+        server_context->socket, 
+        (struct sockaddr *) &server_context->in, 
+        sizeof(server_context->in)) == -1){
 
-    if (listen(server_context->s_sock, server_context->s_backlog) == -1){
-        close_socket(server_context->s_sock);
+        close_socket(server_context->socket);
         return -1;
     }
 
     return 0;
 }
 
-int accept_client(SERVER_CONTEXT server_context, CLIENT_CONTEXT * client_context){
-    int c_in_len = sizeof(client_context->c_in);
+int accept_client(SERVER_CONTEXT server_context, CLIENT_CONTEXT * client_context, int backlog){
+    int in_len = sizeof(client_context->in);
 
-    client_context->c_sock = accept(
-        server_context.s_sock, 
-        (struct sockaddr *) &client_context->c_in, 
-        (socklen_t*) &c_in_len);
+    /*
+     * listen() is a blocking instruction, this is why it is called
+     * in the function that accepts clients.
+     */
+    if (listen(server_context.socket, backlog) == -1){
+        close_socket(server_context.socket);
+        return -1;
+    }
 
-    if (client_context->c_sock == -1)
+    client_context->socket = accept(
+        server_context.socket, 
+        (struct sockaddr *) &client_context->in, 
+        (socklen_t*) &in_len);
+
+    if (client_context->socket == -1)
         return -1;
 
     return 0;
 }
 
-int connect_server(CLIENT_CONTEXT * client_context){
-    client_context->c_sock = socket(AF_INET, SOCK_STREAM, 0);
+int connect_server(CLIENT_CONTEXT * client_context, char * server_ip, int server_port){
+    client_context->socket = socket(AF_INET, SOCK_STREAM, 0);
 
-    if (!client_context->c_sock)
+    if (!client_context->socket)
         return -1;
 
-    client_context->c_in.sin_family = AF_INET;
-    client_context->c_in.sin_port = htons(client_context->r_port);
+    client_context->in.sin_family = AF_INET;
+    client_context->in.sin_port = htons(server_port);
 
-    if (inet_pton(
-        AF_INET,
-        client_context->r_address,
-        &client_context->c_in.sin_addr) <= 0){
-
-        close_socket(client_context->c_sock);
+    if (inet_pton(AF_INET, server_ip, &client_context->in.sin_addr) <= 0){
+        close_socket(client_context->socket);
         return -1;
     } 
 
     if (connect(
-        client_context->c_sock, 
-        (struct sockaddr *) &client_context->c_in, 
-        sizeof(client_context->c_in)) != 0){
+        client_context->socket, 
+        (struct sockaddr *) &client_context->in, 
+        sizeof(client_context->in)) != 0){
 
-        close_socket(client_context->c_sock);
+        close_socket(client_context->socket);
         return -1;
     }
 
@@ -117,8 +117,6 @@ int connect_server(CLIENT_CONTEXT * client_context){
 // Data transmission functions
 
 int ssend_str(int socket_fd, char * buffer, int len){
-    buffer[len - 1] = '\0';
-
     if (send(socket_fd, buffer, len * sizeof(char), 0) == -1)
         return -1;
 
@@ -128,8 +126,6 @@ int ssend_str(int socket_fd, char * buffer, int len){
 int srecv_str(int socket_fd, char * buffer, int len){
     if (recv(socket_fd, buffer, (len * sizeof(char)), 0) == -1)
         return -1;
-
-    buffer[len - 1] = '\0';
 
     return 0;
 }

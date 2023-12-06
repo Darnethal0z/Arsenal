@@ -5,7 +5,7 @@
  * This is free software: you are free to change and redistribute it. 
  * There is NO WARRANTY, to the extent permitted by law.
  *
- * This is the header of the Arsenal development toolkit.
+ * This is the header of the Arsenal library.
  *
  */
 
@@ -44,29 +44,23 @@
 
 typedef struct {
 
-    int s_sock;
-    struct sockaddr_in s_in;
-
-    int s_backlog;          // server backlog (needed)
-    int s_lport;            // server listen port (needed)
+    int socket;
+    struct sockaddr_in in;
 
 } SERVER_CONTEXT;
 
 typedef struct {
 
-    int c_sock;
-    struct sockaddr_in c_in;
-
-    int r_port;             // remote server listen port (needed)
-    char r_address[16];     // remote server ip address (needed)
+    int socket;
+    struct sockaddr_in in;
 
 } CLIENT_CONTEXT;
 
 // print.c
 
 // "Internal" functions used by others features below
-unsigned int _count_int_digits(int value);
-int _get_formatted_str_length(char * format, ...);
+// unsigned int _count_int_digits(int value);
+// int _get_formatted_str_length(char * format, ...);
 
 extern int stylized_printf(
     const int alignment, 
@@ -87,9 +81,9 @@ extern int sinput_float(const char * prompt, float * buffer, int len);
 
 // network.c
 extern int close_socket(int socket_fd);
-extern int connect_server(CLIENT_CONTEXT * c_interface);
-extern int initialize_server_instance(SERVER_CONTEXT * s_interface);
-extern int accept_client(SERVER_CONTEXT s_interface, CLIENT_CONTEXT * c_interface);
+extern int initialize_server_instance(SERVER_CONTEXT * server_context, int listen_port);
+extern int accept_client(SERVER_CONTEXT server_context, CLIENT_CONTEXT * client_context, int backlog);
+extern int connect_server(CLIENT_CONTEXT * client_context, char * server_ip, int server_port);
 extern int ssend_str(int socket_fd, char * buffer, int len);
 extern int srecv_str(int socket_fd, char * buffer, int len);
 extern int ssend_int(int socket_fd, int buffer);

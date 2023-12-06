@@ -67,7 +67,7 @@ int _get_formatted_str_length(char * format, ...){
 
                 // va_arg automatically convert float to double
                 sprintf(str_float, "%lf", va_arg(args_list, double));
-		str_float[strlen(str_float)] = '\0';
+		        str_float[strlen(str_float)] = '\0';
 
                 final_format_length += strlen(str_float);
 

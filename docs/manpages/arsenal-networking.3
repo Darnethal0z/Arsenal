@@ -10,9 +10,9 @@ CLIENT_CONTEXT
 .SS Functions
 .nf
 int \fBclose_socket\fP(int \fIsocket_fd\fP)
-int \fBconnect_server\fP(CLIENT_CONTEXT * \fIclient_context\fP)
-int \fBinitialize_server_instance\fP(SERVER_CONTEXT * \fIserver_context\fP)
-int \fBaccept_client\fP(SERVER_CONTEXT \fIserver_context\fP, CLIENT_CONTEXT * \fIclient_context\fP)
+int \fBinitialize_server_instance\fP(SERVER_CONTEXT * \fIserver_context\fP, int \fIlisten_port\fP)
+int \fBaccept_client\fP(SERVER_CONTEXT \fIserver_context\fP, CLIENT_CONTEXT * \fIclient_context\fP, int \fIbacklog\fP)
+int \fBconnect_server\fP(CLIENT_CONTEXT * \fIclient_context\fP, char * \fIserver_ip\fP, int \fIserver_port\fP)
 int \fBssend_str\fP(int \fIsocket_fd\fP, char * \fIbuffer\fP, int \fIlen\fP)
 int \fBsrecv_str\fP(int \fIsocket_fd\fP, char * \fIbuffer\fP, int \fIlen\fP)
 int \fBssend_int\fP(int \fIsocket_fd\fP, int \fIbuffer\fP)
@@ -29,47 +29,31 @@ This structure contains every server listen informations needed in order to prov
 .sp
 .nf
 typedef struct {
-	int \fIs_sock\fP;
-	struct sockaddr_in \fIs_in\fP;
-	int \fIs_backlog\fP;
-	int \fIs_lport\fP;
+	int \fIsocket\fP;
+	struct sockaddr_in \fIin\fP;
 }
 .fi
 .sp
-.IP \fIs_sock\fP\h'0.4i'
+.IP \fIsocket\fP\h'0.4i'
 The server socket descriptor.
 .sp
-.IP \fIs_in\fP\h'0.4i'
+.IP \fIin\fP\h'0.4i'
 The server socket address structure.
-.sp
-.IP \fIs_backlog\fP\h'0.4i'
-The server listen backlog.
-.sp
-.IP \fIs_lport\fP\h'0.4i'
-The server listen port.
 .SS CLIENT_CONTEXT - Represents a client instance context.
 This structure represents a client instance, including the remote server connection coordinates and communications informations.
 .sp
 .nf
 typedef struct {
-	int \fIc_sock\fP;
-	struct sockaddr_in \fIc_in\fP;
-	int \fIr_port\fP;
-	char \fIr_address[16]\fP;
+	int \fIsocket\fP;
+	struct sockaddr_in \fIin\fP;
 }
 .fi
 .sp
-.IP \fIc_sock\fP\h'0.4i'
+.IP \fIsocket\fP\h'0.4i'
 The client socket descriptor.
 .sp
-.IP \fIc_in\fP\h'0.4i'
+.IP \fIin\fP\h'0.4i'
 The client socket address structure.
-.sp
-.IP \fIr_port\fP\h'0.4i'
-The remote server listen port.
-.sp
-.IP \fIr_address\fP\h'0.4i'
-The remote server IP address (IPv4 format).
 .sp
 .ce
 ----
@@ -100,24 +84,17 @@ No known bugs.
 .SH SYNOPSIS
 #include <arsenal.h>
 .sp
-int \fBinitialize_server_instance\fP(SERVER_CONTEXT * \fIserver_context\fP)
+int \fBinitialize_server_instance\fP(SERVER_CONTEXT * \fIserver_context\fP, int \fIlisten_port\fP)
 .SH DESCRIPTION
-Initialize a server instance by creating an IPv4 TCP server socket, bind it to the listen port specified in \fIserver_context\fP \fIlisten_port\fP member and put it on listen mode. To accept clients connections, see \fBaccept_client()\fP below.
+Initialize a server instance by creating an IPv4 TCP server socket, bind it to the listen port specified with \fIlisten_port\fP. To accept clients connections, see \fBaccept_client()\fP below.
 .sp
-When created, the server socket (\fIserver_context\fP \fIs_sock\fP member) have the \fBSO_REUSEADDR\fP parameters set on the \fBSOL_SOCKET\fP level to avoid potential socket closure problems for the port specified in \fIserver_context\fP \fIlisten_port\fP.
-.SS Needed values in \fIserver_context\fP
-\fIserver_context\fP needs to have two members set before calling the function : 
-.IP \fIs_backlog\fP\h'0.4i'
-The server listen backlog. Usually 5 for a normal usage.
-.IP \fIlisten_port\fP\h'0.4i'
-The server listen port.
-.LP
+When created, the server socket (\fIserver_context\fP \fIsocket\fP member) have the \fBSO_REUSEADDR\fP parameters set on the \fBSOL_SOCKET\fP level to avoid potential socket closure problems for the port specified with \fIlisten_port\fP.
 .sp
 If you need more informations about the SERVER_CONTEXT structure type, see the structure type definitions section upper.
 .SH RETURN VALUE
 \fB0\fP if no error occured. On error \fB-1\fP will be returned and \fBerrno\fP will be set to indicate the error.
 .SH SEE ALSO
-\fBsocket(2)\fP, \fBsetsockopt(2)\fP, \fBbind(2)\fP, \fBlisten(2)\fP
+\fBsocket(2)\fP, \fBsetsockopt(2)\fP, \fBbind(2)\fP
 .SH BUGS
 No known bugs.
 .sp
@@ -128,17 +105,15 @@ No known bugs.
 .SH SYNOPSIS
 #include <arsenal.h>
 .sp
-int \fBaccept_client\fP(SERVER_CONTEXT \fIserver_context\fP, CLIENT_CONTEXT * \fIclient_context\fP)
+int \fBaccept_client\fP(SERVER_CONTEXT \fIserver_context\fP, CLIENT_CONTEXT * \fIclient_context\fP, int \fIbacklog\fP)
 .SH DESCRIPTION
 Accept a client connection.
 .sp
-\fIserver_context\fP must contain initialized server context informations, done with \fBinitialize_server_instance()\fP before the function call. \fIclient_context\fP is a pointer pointing to the destination client context structure.
+\fIserver_context\fP must contain initialized server context informations, done with \fBinitialize_server_instance()\fP before the function call. \fIclient_context\fP is a pointer pointing to the destination client context structure. As described in \fBlisten(2)\fP, The \fIbacklog\fP argument defines the maximum length to which the queue of pending connections for the \fIsocket\fP member of the \fIserver_context\fP structure may grow.
 .SH RETURN VALUE
 \fB0\fP if no error occured. On error \fB-1\fP will be returned and \fBerrno\fP will be set to indicate the error.
-.SH NOTE
-After the function call, the \fIclient_context\fP \fIr_port\fP and the \fIr_address\fP members will not be set, thus making them useless.
 .SH SEE ALSO
-\fBaccept(2)\fP
+\fBaccept(2)\fP, \fBlisten(2)\fP
 .SH BUGS
 No known bugs.
 .sp
@@ -149,16 +124,9 @@ No known bugs.
 .SH SYNOPSIS
 #include <arsenal.h>
 .sp
-int \fBconnect_server\fP(CLIENT_CONTEXT * \fIclient_context\fP)
+int \fBconnect_server\fP(CLIENT_CONTEXT * \fIclient_context\fP, char * \fIserver_ip\fP, int \fIserver_port\fP)
 .SH DESCRIPTION
-Establish a connection on a server, \fIclient_context\fP being a pointer pointing to the destination client context structure.
-.SS Needed values in \fIserver_context\fP
-\fIclient_context\fP needs to have two members set before calling the function : 
-.IP \fIr_address\fP\h'0.4i'
-The remote server IP.
-.IP \fIr_port\fP\h'0.4i'
-The remote server listen port.
-.LP
+Establish a connection on a server, \fIclient_context\fP being a pointer pointing to the destination client context structure. \fIserver_ip\fP and \fIserver_port\fP are respectively the remote server IP and listen port to connect to.
 .sp
 If you need more informations about the CLIENT_CONTEXT structure type, see the structure type definitions section upper.
 .SH RETURN VALUE

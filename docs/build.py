@@ -3,7 +3,7 @@ import datetime
 import os
 
 # Modify this variable to specify a version
-VERSION = "1.0.0"
+VERSION = "1.1.0"
 
 # ------------------------------------
 
