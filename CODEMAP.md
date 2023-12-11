@@ -13,6 +13,7 @@ arsenal
 ├── arsenal.h
 ├── display.c
 ├── dummy.c
+├── file.c
 ├── network.c
 ├── random.c
 ├── string.c
@@ -34,6 +35,10 @@ arsenal
   This is a file containing a dummy main() function, used for testing purposes only.
 
   This file is omitted if Arsenal is build with the installation script.
+
+- `file.c`
+
+  This file contains file manipulation features.
 
 - `network.c`
 
