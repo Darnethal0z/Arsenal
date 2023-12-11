@@ -114,19 +114,19 @@ int connect_server(CLIENT_CONTEXT * client_context, char * server_ip, int server
 
 // Data transmission functions
 
-int ssend_str(int socket_fd, char * buffer, int len){
-    if (send(socket_fd, buffer, len * sizeof(char), 0) == -1)
-        return -1;
+// int ssend_str(int socket_fd, char * buffer, int len){
+//     if (send(socket_fd, buffer, len * sizeof(char), 0) == -1)
+//         return -1;
 
-    return 0;
-}
+//     return 0;
+// }
 
-int srecv_str(int socket_fd, char * buffer, int len){
-    if (recv(socket_fd, buffer, (len * sizeof(char)), 0) == -1)
-        return -1;
+// int srecv_str(int socket_fd, char * buffer, int len){
+//     if (recv(socket_fd, buffer, (len * sizeof(char)), 0) == -1)
+//         return -1;
 
-    return 0;
-}
+//     return 0;
+// }
 
 int ssend_int(int socket_fd, int buffer){
     buffer = htonl(buffer);

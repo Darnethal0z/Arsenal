@@ -143,44 +143,6 @@ No known bugs.
 .SH SYNOPSIS
 #include <arsenal.h>
 .sp
-int \fBssend_str\fP(int \fIsocket_fd\fP, char * \fIbuffer\fP, int \fIlen\fP);
-.SH DESCRIPTION
-Send the string specified with \fIbuffer\fP on the socket descriptor specified with \fIsocket_fd\fP.  \fIlen\fP is the length of the string specified with \fIbuffer\fP (\fBnull byte included\fP).
-.SH RETURN VALUE
-\fB0\fP if no error occured. On error \fB-1\fP will be returned and \fBerrno\fP will be set to indicate the error.
-.SH SECURITY NOTICE
-A null byte will be automatically added at the end of \fBbuffer\fP, according to \fBlen\fP. Do not forget to allocate appropriate memory before usage.
-.SH SEE ALSO
-\fBsend(2)\fP
-.SH BUGS
-No known bugs.
-.sp
-.ce
-----
-.ce 0
-.sp
-.SH SYNOPSIS
-#include <arsenal.h>
-.sp
-int \fBsrecv_str\fP(int \fIsocket_fd\fP, char * \fIbuffer\fP, int \fIlen\fP);
-.SH DESCRIPTION
-Receive a string from the socket descriptor specified with \fIsocket_fd\fP. \fIbuffer\fP is the buffer that will contain the received string, and \fIlen\fP the length of the string to receive (\fBnull byte included\fP).
-.SH RETURN VALUE
-\fB0\fP if no error occured. On error \fB-1\fP will be returned and \fBerrno\fP will be set to indicate the error.
-.SH SECURITY NOTICE
-A null byte will be automatically added at the end of \fBbuffer\fP, according to \fBlen\fP. Do not forget to allocate appropriate memory before usage.
-.SH SEE ALSO
-\fBrecv(3)\fP
-.SH BUGS
-No known bugs.
-.sp
-.ce
-----
-.ce 0
-.sp
-.SH SYNOPSIS
-#include <arsenal.h>
-.sp
 int \fBssend_int\fP(int \fIsocket_fd\fP, int \fIbuffer\fP);
 .SH DESCRIPTION
 Send the integer specified with \fIbuffer\fP on the socket descriptor specified with \fIsocket_fd\fP.

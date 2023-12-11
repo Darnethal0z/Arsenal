@@ -81,8 +81,8 @@ extern int close_socket(int socket_fd);
 extern int initialize_server_instance(SERVER_CONTEXT * server_context, int listen_port);
 extern int accept_client(SERVER_CONTEXT server_context, CLIENT_CONTEXT * client_context, int backlog);
 extern int connect_server(CLIENT_CONTEXT * client_context, char * server_ip, int server_port);
-extern int ssend_str(int socket_fd, char * buffer, int len);
-extern int srecv_str(int socket_fd, char * buffer, int len);
+// extern int ssend_str(int socket_fd, char * buffer, int len);
+// extern int srecv_str(int socket_fd, char * buffer, int len);
 extern int ssend_int(int socket_fd, int buffer);
 extern int srecv_int(int socket_fd, int * buffer);
 
