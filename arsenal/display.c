@@ -18,7 +18,6 @@
 #include <string.h>
 #include <stdarg.h>
 #include <errno.h>
-#include <stdbool.h>
 #include <sys/ioctl.h>
 
 // "internal" function
@@ -114,9 +113,8 @@ int stylized_printf(
             errno = EINVAL; // Invalid argument
         
         return -1;
-
     }
-    
+
     formatted_str = malloc((formatted_str_length + 1) * sizeof(char));
 
     if (!formatted_str)
