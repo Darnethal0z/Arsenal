@@ -9,12 +9,12 @@
  *
  */
 
+#include "arsenal.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
-
-#include "arsenal.h"
 
 void sinput_str(const char * prompt, char * buffer, int len){
     char active_char = 0;

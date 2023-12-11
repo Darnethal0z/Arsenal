@@ -1,0 +1,47 @@
+.TH "ARSENAL" "3" "<date>" "<version>" "The Arsenal library documentation"
+.SH NAME
+File manipulation features section \- The Arsenal library v<version>
+.SH COVERED IN THIS SECTION
+.SS Functions
+.nf
+int \fBget_file_size\fP(char * \fIfile_path\fP)
+int \fBread_file\fP(char * \fIfile_path\fP, char * \fIbuffer\fP, size_t \fIbuffsize\fP)
+.fi
+.sp
+.ce
+----
+.ce 0
+.sp
+.SH SYNOPSIS
+#include <arsenal.h>
+.sp
+int \fBget_file_size\fP(char * \fIfile_path\fP)
+.SH DESCRIPTION
+Get the size in bytes of the file path specified with \fIfile_path\fP.
+.SH RETURN VALUE
+\fB0\fP if no error occured. On error \fB-1\fP will be returned and \fBerrno\fP will be set to indicate the error.
+.SH SEE ALSO
+\fBstat(2)\fI
+.SH BUGS
+No known bugs.
+.sp
+.ce
+----
+.ce 0
+.sp
+.SH SYNOPSIS
+#include <arsenal.h>
+.sp
+int \fBread_file\fP(char * \fIfile_path\fP, char * \fIbuffer\fP, size_t \fIbuffsize\fP)
+.SH DESCRIPTION
+Read the full content of the file specified with \fIfile_path\fP in \fIbuffer\fP.
+.sp
+This function will read from the file recursively until it's done. \fIbuffsize\fP is the size to read each iteration.
+.sp
+To allocate appropriate memory in the buffer specified with \fIbuffer\fP, you may use the \fBget_file_size()\fP function to get the file size before calling this function.
+.SH RETURN VALUE
+\fB0\fP if no error occured. On error \fB-1\fP will be returned and \fBerrno\fP will be set to indicate the error.
+.SH SEE ALSO
+\fBread(2)\fP
+.SH BUGS
+No known bugs.

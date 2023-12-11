@@ -10,6 +10,8 @@
  *
  */
 
+#include "arsenal.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -18,8 +20,6 @@
 #include <errno.h>
 #include <stdbool.h>
 #include <sys/ioctl.h>
-
-#include "arsenal.h"
 
 // "internal" function
 // Counts the digits in an integer

@@ -9,33 +9,11 @@
  *
  */
 
+#include "arsenal.h"
+
 #include <stdio.h>
 #include <string.h>
 #include <sys/random.h>
-// #include <unistd.h> See below (*)
-// #include <fcntl.h>
-
-#include "arsenal.h"
-
-// (*) This function is already handled by the linux getrandom() (sys/random.h)
-// char generate_random_number(unsigned int * buffer){
-//     unsigned int generated_random = 0;
-//     int random_dev = open("/dev/urandom", O_RDONLY);
-
-//     if (!random_dev) 
-//         return ERROR_OPEN_FILE;
-
-//     if (!read(random_dev, &generated_random, 1)){
-//         close(random_dev);
-//         return ERROR_READ_FROM_FILE;
-//     }
-
-//     close(random_dev);
-
-//     *buffer = generated_random;
-
-//     return 0;
-// }
 
 int generate_random_string(const char * charset, char * buffer, int len){
     unsigned int generated_random = 0;

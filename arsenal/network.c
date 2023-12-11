@@ -9,15 +9,13 @@
  *
  */
 
+// Nessessary headers are included inside.
+#include "arsenal.h"
+
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
 #include <arpa/inet.h>
-
-#include "arsenal.h"
 
 // Socket management functions
 

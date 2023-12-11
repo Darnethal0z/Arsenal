@@ -9,11 +9,11 @@
  *
  */
 
+#include "arsenal.h"
+
 #include <stdio.h>
 #include <stdarg.h>
 #include <string.h>
-
-#include "arsenal.h"
 
 void concatenate_strings(int n, char * buffer, ...){
     va_list args_list;

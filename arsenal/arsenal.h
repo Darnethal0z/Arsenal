@@ -13,10 +13,7 @@
 #define _ARSENAL_ONCE
 
 #include <stdbool.h>
-#include <sys/types.h>
-#include <sys/socket.h>
 #include <netinet/in.h>
-#include <arpa/inet.h>
 
 #define ALIGN_LEFT                        1
 #define ALIGN_CENTER                      2
@@ -91,5 +88,9 @@ extern int srecv_int(int socket_fd, int * buffer);
 
 // random.c
 extern int generate_random_string(const char * charset, char * buffer, int len);
+
+// file.c
+extern int get_file_size(char * file_path);
+extern int read_file(char * file_path, char * buffer, size_t buffsize);
 
 #endif // _ARSENAL_ONCE
