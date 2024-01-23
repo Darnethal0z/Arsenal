@@ -21,6 +21,7 @@ Arsenal is a C library to integrate into a project, providing a solution to recu
 - Convenient string manipluation ;
 - Client / server socket management ;
 - Random and URL-safe strings ;
+- File manipulation features ;
 
 ## Installation
 
