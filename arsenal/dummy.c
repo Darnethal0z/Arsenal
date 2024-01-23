@@ -17,16 +17,4 @@
 #include <string.h>
 
 // Test purposes only
-int main(int argc, char * argv[]){
-    int size = get_file_size("/etc/passwd");
-
-    printf("%i\n", size);
-
-    char * buffer = malloc(size * sizeof(char));
-
-    read_file("/etc/passwd", buffer);
-
-    printf("%s\n", buffer);
-
-    return 0;
-}
+int main(int argc, char * argv[]){}
